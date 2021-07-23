@@ -1,15 +1,45 @@
 <template>
+  <select class="month-selector" v-model="currentMonth">
+    <option v-for="month in months" :value="month.value" :key="month.value">
+      {{ month.title }}
+    </option>
+  </select>
+  <div class="header">
+    <div class="cell">
+      <div>参拍人数</div>
+      <div>{{ header.total }}</div>
+    </div>
+    <div class="cell">
+      <div>中拍人数 / 中拍率</div>
+      <div>{{ header.winners }} / {{ header.percent }}%</div>
+    </div>
+    <div class="cell">
+      <div>最低成交价/ 平均成交价</div>
+      <div>{{ header.min }} / {{ header.avg }}</div>
+    </div>
+    <div class="cell">
+      <div>最低价成交截止时间(这以后再出最低价就没用了):</div>
+      <div>{{ header.minAt }}</div>
+    </div>
+    <div />
+    <div class="cell">
+      <div>最低价成交顺序（前多少出最低价的拍中了）</div>
+      <div>{{ header.minSeq }}</div>
+    </div>
+  </div>
   <div class="container">
-    <select class="month-selector" v-model="currentMonth">
-      <option v-for="month in months" :value="month.value" :key="month.value">
-        {{ month.title }}
-      </option>
-    </select>
     <canvas ref="canvasRef" width="400" height="400"></canvas>
   </div>
 </template>
 
 <script setup>
+// return `参拍人数: ${meta.total} 中拍人数:${Math.round(
+//   (meta.total * meta.percent) / 100
+// )} 中拍率${meta.percent}%  最低成交价:${meta.min} 平均成交价:${
+//   meta.avg
+// } 最低价成交截止时间(这以后再出最低价就没用了):${
+//   meta.minAt
+// } 最低价成交顺序（前多少个出最低价的人拍中了）:${meta.minSeq}`;
 import { onMounted, ref, computed, watchEffect, watch, shallowRef } from "vue";
 
 function range(start, end) {
@@ -170,13 +200,15 @@ datas.reverse();
 let myChart = shallowRef(null);
 
 function titleFromMeta(meta) {
-  return `参拍人数: ${meta.total} 中拍人数:${Math.round(
-    (meta.total * meta.percent) / 100
-  )} 中拍率${meta.percent}%  最低成交价:${meta.min} 平均成交价:${
-    meta.avg
-  } 最低价成交截止时间(这以后再出最低价就没用了):${
-    meta.minAt
-  } 最低价成交顺序（前多少个出最低价的人拍中了）:${meta.minSeq}`;
+  return {
+    total: meta.total,
+    winners: Math.round((meta.total * meta.percent) / 100),
+    percent: meta.percent,
+    min: meta.min,
+    avg: meta.avg,
+    minAt: meta.minAt,
+    minSeq: meta.minSeq,
+  };
 }
 
 function renderChart() {
@@ -193,29 +225,21 @@ function renderChart() {
     data,
     options: {
       responsive: true,
-      plugins: {
-        legend: {
-          position: "top",
-        },
-        title: {
-          display: true,
-          text: titleFromMeta(meta),
-        },
-      },
     },
   };
 
   myChart.value = new Chart(ctx, config);
 }
 
+const header = computed(() => {
+  return titleFromMeta(datas[currentMonth.value - 1][2]);
+});
+
 function updateChart() {
   const data = adaptData(datas[currentMonth.value - 1]);
   const chart = myChart.value;
   chart.data.datasets[0].data = data[0].data;
   chart.data.datasets[1].data = data[1].data;
-  chart.options.plugins.title.text = titleFromMeta(
-    datas[currentMonth.value - 1][2]
-  );
   chart.update();
 }
 
@@ -230,9 +254,19 @@ watch(currentMonth, () => {
 <style scoped>
 .container {
   width: 800px;
+  margin: 0 auto;
 }
 .month-selector {
   width: 100px;
   height: 30px;
+}
+.header {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+.header > div {
+  display: flex;
+  justify-content: space-between;
+  margin: 4px 8px;
 }
 </style>
