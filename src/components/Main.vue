@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <select v-model="currentMonth">
+    <select class="month-selector" v-model="currentMonth">
       <option v-for="month in months" :value="month.value" :key="month.value">
         {{ month.title }}
       </option>
@@ -170,7 +170,14 @@ datas.reverse();
 let myChart = shallowRef(null);
 
 function titleFromMeta(meta) {
-  return `参拍人数: ${meta.total} 中拍率${meta.percent}% 最低成交价:${meta.min} 平均成交价:${meta.avg} 最低价成交截止时间:${meta.minAt} 最低价成交顺序:${meta.minSeq} 顺序百分比`;
+  return `参拍人数: ${meta.total} 中拍人数:${Math.round(
+    (meta.total * meta.percent) / 100
+  )} 中拍率${meta.percent}%  最低成交价:${meta.min} 平均成交价:${
+    meta.avg
+  } 最低价成交截止时间:${meta.minAt} 最低价成交顺序:${meta.minSeq} 顺序百分比${(
+    (meta.minSeq * 100) /
+    meta.total
+  ).toFixed(2)}%`;
 }
 
 function renderChart() {
@@ -224,5 +231,9 @@ watch(currentMonth, () => {
 <style scoped>
 .container {
   width: 800px;
+}
+.month-selector {
+  width: 100px;
+  height: 30px;
 }
 </style>
