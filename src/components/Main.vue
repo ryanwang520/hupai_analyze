@@ -63,6 +63,14 @@ let datas = [
       91000, 91000, 91000, 91000, 91000, 91000, 91000, 91000, 91000, 91000,
       91000, 91000, 91200, 91300, 91500,
     ],
+    {
+      min: 91200,
+      avg: 91265,
+      minAt: 58,
+      minSeq: 3128,
+      total: 200119,
+      percent: 5.4,
+    },
   ],
   [
     [
@@ -73,6 +81,15 @@ let datas = [
       91000, 91000, 91000, 91200, 91200, 91300, 91300, 91300, 91300, 91300,
       91300, 91300, 91400, 91500, 91700,
     ],
+
+    {
+      min: 91400,
+      avg: 91465,
+      minAt: 58,
+      minSeq: 998,
+      total: 215395,
+      percent: 5.1,
+    },
   ],
   [
     [
@@ -83,6 +100,14 @@ let datas = [
       91900, 92000, 92200, 92200, 92300, 92400, 92500, 92700, 92800, 92800,
       92900, 93000, 93000, 93000, 93100,
     ],
+    {
+      min: 92800,
+      avg: 92887,
+      minAt: 56,
+      minSeq: 130,
+      total: 238896,
+      percent: 4.7,
+    },
   ],
   [
     [
@@ -93,6 +118,15 @@ let datas = [
       91700, 91700, 91900, 91900, 92100, 92100, 92200, 92200, 92400, 92400,
       92500, 92600, 92700, 92700, 92800,
     ],
+
+    {
+      min: 92500,
+      avg: 92594,
+      minAt: 56,
+      minSeq: 1191,
+      total: 249403,
+      percent: 4.31,
+    },
   ],
   [
     [
@@ -103,6 +137,14 @@ let datas = [
       91300, 91300, 91400, 91400, 91500, 91500, 91600, 91600, 91600, 91600,
       91600, 91600, 91700, 91700, 91900,
     ],
+    {
+      min: 91700,
+      avg: 91719,
+      minAt: 58,
+      minSeq: 3926,
+      total: 242366,
+      percent: 5.1,
+    },
   ],
   [
     [
@@ -113,24 +155,47 @@ let datas = [
       91200, 91300, 91300, 91400, 91400, 91500, 91500, 91500, 91600, 91600,
       91700, 91800, 91900, 92000, 92000,
     ],
+    {
+      min: 91800,
+      avg: 91863,
+      minAt: 58,
+      minSeq: 1649,
+      total: 233761,
+      percent: 5.7,
+    },
   ],
 ];
 datas.reverse();
 
 let myChart = shallowRef(null);
 
+function titleFromMeta(meta) {
+  return `参拍人数: ${meta.total} 中拍率${meta.percent}% 最低成交价:${meta.min} 平均成交价:${meta.avg} 最低价成交截止时间:${meta.minAt} 最低价成交顺序:${meta.minSeq} 顺序百分比`;
+}
+
 function renderChart() {
   var ctx = canvasRef.value.getContext("2d");
   const labels = range(45, 60);
+  const currentData = datas[currentMonth.value - 1];
+  const meta = currentData[2];
   const data = {
     labels: labels,
-    datasets: adaptData(datas[currentMonth.value - 1]),
+    datasets: adaptData(currentData),
   };
   const config = {
     type: "line",
     data,
     options: {
-      // responsive: true,
+      responsive: true,
+      plugins: {
+        legend: {
+          position: "top",
+        },
+        title: {
+          display: true,
+          text: titleFromMeta(meta),
+        },
+      },
     },
   };
 
@@ -142,6 +207,9 @@ function updateChart() {
   const chart = myChart.value;
   chart.data.datasets[0].data = data[0].data;
   chart.data.datasets[1].data = data[1].data;
+  chart.options.plugins.title.text = titleFromMeta(
+    datas[currentMonth.value - 1][2]
+  );
   chart.update();
 }
 
