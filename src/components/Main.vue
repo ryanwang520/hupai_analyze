@@ -174,7 +174,7 @@ function titleFromMeta(meta) {
     (meta.total * meta.percent) / 100
   )} 中拍率${meta.percent}%  最低成交价:${meta.min} 平均成交价:${
     meta.avg
-  } 最低价成交截止时间:${
+  } 最低价成交截止时间(这以后再出最低价就没用了):${
     meta.minAt
   } 最低价成交顺序（前多少个出最低价的人拍中了）:${meta.minSeq}`;
 }
