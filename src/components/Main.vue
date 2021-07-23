@@ -174,10 +174,9 @@ function titleFromMeta(meta) {
     (meta.total * meta.percent) / 100
   )} 中拍率${meta.percent}%  最低成交价:${meta.min} 平均成交价:${
     meta.avg
-  } 最低价成交截止时间:${meta.minAt} 最低价成交顺序:${meta.minSeq} 顺序百分比${(
-    (meta.minSeq * 100) /
-    meta.total
-  ).toFixed(2)}%`;
+  } 最低价成交截止时间:${
+    meta.minAt
+  } 最低价成交顺序（前多少个出最低价的人拍中了）:${meta.minSeq}`;
 }
 
 function renderChart() {
