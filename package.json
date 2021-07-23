@@ -1,0 +1,19 @@
+{
+  "name": "hupai_analyze",
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview"
+  },
+  "dependencies": {
+    "vue": "^3.0.5"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^1.2.5",
+    "@vue/compiler-sfc": "^3.0.5",
+    "prettier": "^2.3.2",
+    "vite": "^2.4.3"
+  },
+  "license": "MIT"
+}
