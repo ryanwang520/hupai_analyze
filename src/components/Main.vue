@@ -48,12 +48,12 @@ function range(start, end) {
 const canvasRef = ref(null);
 
 const months = ref(
-  range(1, 8).map((i) => ({
+  range(1, 9).map((i) => ({
     title: `${i}月`,
     value: i,
   }))
 );
-const currentMonth = ref(7);
+const currentMonth = ref(8);
 
 function adaptData(data) {
   return [
@@ -101,8 +101,27 @@ const jul = [
     percent: 4.7,
   },
 ];
+const Aug = [
+  [
+    91000, 91100, 91200, 91200, 91300, 91300, 91300, 91300, 91300, 91300, 91300,
+    91400, 91500, 91600, 91700,
+  ],
+  [
+    91300, 91400, 91500, 91500, 91600, 91600, 91600, 91600, 91600, 91600, 91600,
+    91700, 91800, 91900, 92000,
+  ],
+  {
+    min: 91800,
+    avg: 91889,
+    minAt: 58,
+    minSeq: 1896,
+    total: 236233,
+    percent: 4.5,
+  },
+];
 
 let datas = [
+  Aug,
   jul,
   [
     [
