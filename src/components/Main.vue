@@ -214,7 +214,10 @@ function renderChart() {
 }
 
 const header = computed(() => {
-  return titleFromMeta(datas[currentMonth.value - 1][2]);
+  const currentData = datas.filter((data) => data[0][0] == currentYear.value)[
+    currentMonth.value - 1
+  ];
+  return titleFromMeta(currentData[3]);
 });
 
 function updateChart() {
