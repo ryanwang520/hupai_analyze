@@ -9,12 +9,12 @@ const Jan2022 = [
     93200, 93200, 93300, 93400,
   ],
   {
-    min: 92400,
-    avg: 92471,
-    minAt: 58,
-    minSeq: 697,
-    total: 236237,
-    percent: 4.7,
+    min: 93100,
+    avg: 93190,
+    minAt: 56,
+    minSeq: 2118,
+    total: 201873,
+    percent: 5.9,
   },
 ];
 
