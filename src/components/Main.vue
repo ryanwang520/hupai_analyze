@@ -120,7 +120,7 @@ function range(start, end) {
 }
 const canvasRef = ref(null);
 
-const currentYear = ref(2021);
+const currentYear = ref(2022);
 const months = ref(
   range(1, 13)
     .map((i) => ({
